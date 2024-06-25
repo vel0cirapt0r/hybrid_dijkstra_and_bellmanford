@@ -49,24 +49,56 @@ class SequentialHybrid:
                     heapq.heappush(q, (alt, v))
 
 
+# if __name__ == "__main__":
+#     dataset_folder_path = input('Enter path to graph files folder: ') or DATASET_PATH
+#     files_path = input('Enter name of graph files: ') or 'bay'
+#     folder_path = os.path.join(dataset_folder_path, files_path)
+#
+#     parser = GraphParser()
+#     parsed_graph = parser.parse(folder_path)
+#     graph = parsed_graph['distance_edges']
+#
+#     total_edges = sum(len(adjacent_vertices) for adjacent_vertices in graph.values())
+#     print('number of nodes: ', len(graph), ', number of edges: ', total_edges)
+#     # print(graph)
+#
+#     # graph = generate_graph(320000, 790000)
+#     # print("generated graph: ", graph)
+#
+#     sequential_hybrid_instance = SequentialHybrid(graph)
+#     source = int(input('Enter source for graph: ') or '1')  # Set the source node
+#     distances = sequential_hybrid_instance.sequential_hybrid(source)
+#     if distances:
+#         print("Distances:", distances)
+
 if __name__ == "__main__":
-    dataset_folder_path = input('Enter path to graph files folder: ') or DATASET_PATH
-    files_path = input('Enter name of graph files: ') or 'bay'
-    folder_path = os.path.join(dataset_folder_path, files_path)
+    print("Choose an option:")
+    print("1. Generate a new graph")
+    print("2. Use a prepared graph")
+    option = input("Option: ")
 
-    parser = GraphParser()
-    parsed_graph = parser.parse(folder_path)
-    graph = parsed_graph['distance_edges']
+    if option == "1":
+        num_nodes = int(input("Enter the number of nodes for the new graph: "))
+        num_edges = int(input("Enter the number of edges for the new graph: "))
+        graph = generate_graph(num_nodes, num_edges)
+        print(f"Generated graph with {num_nodes} nodes and {num_edges} edges.")
+    elif option == "2":
+        dataset_folder_path = input("Enter path to graph files folder: ") or DATASET_PATH
+        files_path = input("Enter name of graph files: ") or 'bay'
+        folder_path = os.path.join(dataset_folder_path, files_path)
 
-    total_edges = sum(len(adjacent_vertices) for adjacent_vertices in graph.values())
-    print('number of nodes: ', len(graph), ', number of edges: ', total_edges)
-    # print(graph)
+        parser = GraphParser()
+        parsed_graph = parser.parse(folder_path)
+        graph = parsed_graph['distance_edges']
 
-    # graph = generate_graph(320000, 790000)
-    # print("generated graph: ", graph)
+        total_edges = sum(len(adjacent_vertices) for adjacent_vertices in graph.values())
+        print(f"Loaded graph with {len(graph)} nodes and {total_edges} edges from {folder_path}.")
+    else:
+        print("Invalid option. Please choose 1 or 2.")
+        exit(1)
 
     sequential_hybrid_instance = SequentialHybrid(graph)
-    source = int(input('Enter source for graph: ') or '1')  # Set the source node
+    source = int(input("Enter source for graph: ") or '1')  # Set the source node
     distances = sequential_hybrid_instance.sequential_hybrid(source)
     if distances:
         print("Distances:", distances)
